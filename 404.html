@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>404 - Lạc trôi rồi!</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      text-align: center;
+      padding: 50px;
+      background: linear-gradient(to right, #ff9a9e, #fad0c4);
+      color: #fff;
+      animation: bg-rotate 10s infinite alternate;
+    }
+
+    @keyframes bg-rotate {
+      0% { background: linear-gradient(to right, #ff9a9e, #fad0c4); }
+      50% { background: linear-gradient(to right, #a1c4fd, #c2e9fb); }
+      100% { background: linear-gradient(to right, #fbc2eb, #a6c1ee); }
+    }
+
+    h1 {
+      font-size: 3em;
+      margin-bottom: 0.3em;
+      text-shadow: 2px 2px 4px #00000055;
+    }
+
+    .joke {
+      font-size: 1.4em;
+      font-style: italic;
+      color: #fff;
+      text-shadow: 1px 1px 2px #00000055;
+      margin-bottom: 2em;
+      transition: all 0.3s ease-in-out;
+    }
+
+    a {
+      text-decoration: none;
+      background-color: #ffffff22;
+      color: white;
+      padding: 12px 24px;
+      border-radius: 10px;
+      border: 2px solid white;
+      font-weight: bold;
+      transition: 0.2s;
+    }
+
+    a:hover {
+      background-color: white;
+      color: #333;
+    }
+  </style>
+</head>
+<body>
+  <h1>404 - Không tìm thấy trang!</h1>
+  <p class="joke" id="joke">Đang tải joke siêu hài...</p>
+  <a href="/">Quay về trang chủ</a>
+
+  <script>
+    const jokes = [
+      "Tại sao lập trình viên không bao giờ bị lạc? Vì họ luôn giữ được 'try'!",
+      "Bug lớn nhất của tôi là nghĩ rằng mình không có bug.",
+      "Tôi không thất bại, tôi chỉ tìm ra 404 cách không hoạt động.",
+      "Frontend hỏi Backend: 'Anh có yêu em không?' Backend trả lời: 'Anh gửi status 200 mà em không hiểu à?'",
+      "Trang này không tồn tại, giống như deadline đúng hẹn vậy!"
+    ];
+
+    const jokeEl = document.getElementById('joke');
+    const randomJoke = jokes[Math.floor(Math.random() * jokes.length)];
+    jokeEl.textContent = randomJoke;
+  </script>
+</body>
+</html>
