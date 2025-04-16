@@ -162,7 +162,9 @@ const jokes = [
       document.getElementById("joke-display").textContent = current_joke;
     })
     
-    fetch("https://cheerful-empanada-c3d6af.netlify.app/functions/jokes")
+    fetch("https://cheerful-empanada-c3d6af.netlify.app/.netlify/functions/jokes",{
+      method:"post"
+    })
   </script>
 </body>
 
