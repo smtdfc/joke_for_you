@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>See your joke </title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+</head>
+
+<body>
+  
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,279&display=swap');
+    
+    * {
+      font-family: "Inter", sans-serif;
+      font-optical-sizing: auto;
+      font-weight: 500;
+      font-style: normal;
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+      
+    }
+    
+    .joke-box {
+      display: flex;
+      flex-flow: column;
+      align-items: center;
+      justify-content: center;
+      row-gap: 20px;
+      height: 100vh;
+      box-sizing: border-box;
+      width: 100vw;
+    }
+    
+    .joke-display {
+      padding: 2rem;
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 15px;
+      padding: 30px 40px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+      text-align: center;
+      font-size: 1.5rem;
+      transition: all 0.3s ease-in-out;
+      width: 90%;
+      text-align: center;
+    }
+    
+    .btn {
+      display: inline-block;
+      padding: 1rem;
+      margin-top: 20px;
+      background-color: #ff6a00;
+      color: white;
+      border: none;
+      border-radius: 25px;
+      cursor: pointer;
+      transition: transform 0.5s ease, background-color 0.3s ease;
+    }
+    
+    .btn:hover {
+      transform: scale(0.9);
+    }
+    
+    .navbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      display: flex;
+      align-items: center;
+      column-gap: 10px;
+    }
+    
+    .navbar-header {
+      padding: .8rem;
+    }
+    
+    .navbar-title {
+      margin: 0;
+      font-weight: 400;
+      font-size: 18px;
+    }
+  </style>
+  
+  <nav class="navbar animate__animated animate__fadeInDown">
+    <div class="navbar-header">
+      <h1 class="navbar-title">Joke for you </h1>
+    </div>
+  </nav>
+  <div class="joke-box">
+    <div id="joke-display" class="joke-display animate__animated animate__bounce">Joke here</div>
+    <button id="gen-btn" class="btn animate__animated animate__fadeInUp">Generate joke</button>
+  </div>
+  
+  <script>
+    const url = new URL(window.location.href);
+    const params = new URLSearchParams(url.search);
+const jokes = [
+  "Tại sao con mèo lại chia tay với bạn trai? Vì nó phát hiện anh ta là một con chuột đội lốt!",
+  "Cà phê thì đắng, còn bạn thì ngọt, thế nên mình hợp nhau như cà phê sữa!",
+  "Tại sao phi hành gia chia tay với bạn gái? Vì anh ấy cần không gian riêng!",
+  "Con cá nói gì khi đâm vào tường? 'Đau đầu quá, quên bơi lùi!'",
+  "Tại sao cái cây lại hay bị bạn bè trêu? Vì nó cứ đứng im thin thít!",
+  "Môn học nào dễ nhất ở trường? Hóa học, vì chỉ cần có 'phản ứng' là đủ!",
+  "Tại sao quả chuối lại thích hát? Vì nó muốn trở thành 'chuối rốc'!",
+  "Bạn thân là gì? Là đứa biết bạn thích ăn gì và sẵn sàng để bạn ăn ké!",
+  "Tại sao con gà không bao giờ nói dối? Vì nó chỉ biết 'cục tác' sự thật!",
+  "Câu hỏi mà học sinh sợ nhất là gì? 'Hôm nay ai chưa làm bài tập?'",
+  "Tại sao chiếc xe đạp không đi được? Vì nó mệt, cần 'đạp' thêm động lực!",
+  "Người yêu không có, nhưng wifi thì phải mạnh, đúng không?",
+  "Tại sao con chó không làm ca sĩ? Vì nó chỉ biết sủa hit, không hát hit!",
+  "Cái gì càng ăn càng nhỏ đi? Cái bánh, vì ăn xong là hết!",
+  "Tại sao con bò lại hay cười? Vì nó nghe kể chuyện 'bò' đùa!",
+  "Tại sao trà sữa lại đắt? Vì nó chứa cả 'trân châu' lẫn tình yêu!",
+  "Cái gì bay trên trời mà không có cánh? Thời gian, vì nó trôi nhanh lắm!",
+  "Tại sao cái bàn lại ghét ghế? Vì ghế cứ được ngồi, còn bàn chỉ bị đè!",
+  "Mưa thì ướt, nắng thì khô, còn crush thì làm tim mình 'lơ lửng'!",
+  "Tại sao con ốc sên chạy chậm? Vì nó mang cả 'nhà' trên lưng!"
+];
+
+    let idParam = parseInt(params.get('id'));
+    let id = Number.isNaN(idParam) ? Math.floor(Math.random() * jokes.length) : idParam;
+    let current_joke = jokes[id];
+    
+    function generateJoke() {
+      id = Math.floor(Math.random() * jokes.length);
+      current_joke = jokes[id];
+    }
+    
+    
+    function generateLightColor() {
+      const r = Math.floor(180 + Math.random() * 75); // 180–255
+      const g = Math.floor(180 + Math.random() * 75);
+      const b = Math.floor(180 + Math.random() * 75);
+      return `rgb(${r}, ${g}, ${b})`;
+    }
+    
+    function generateRandomLightGradient() {
+      const directions = ['to right', 'to left', 'to top', 'to bottom', 'to top right', 'to bottom left'];
+      const randomDirection = directions[Math.floor(Math.random() * directions.length)];
+      const colorCount = Math.random() > 0.5 ? 2 : 3;
+      const colors = Array.from({ length: colorCount }, generateLightColor);
+      const gradient = `linear-gradient(${randomDirection}, ${colors.join(', ')})`;
+      return gradient;
+    }
+    
+    function updateBg() {
+      document.body.style.background = generateRandomLightGradient();
+    }
+    
+    updateBg();
+    document.getElementById("joke-display").textContent = current_joke;
+    document.getElementById("gen-btn").addEventListener("click", () => {
+      generateJoke();
+      updateBg();
+      document.getElementById("joke-display").textContent = current_joke;
+    })
+  </script>
+</body>
+
+</html>
