@@ -2,15 +2,29 @@ const url = new URL(window.location.href);
 const params = new URLSearchParams(url.search);
 
 let id = parseInt(params.get('id'));
-id = Number.isNaN(id) ? Math.floor(Math.random() * 10) : id;
-
 let current_joke = "";
 let answerTimeout = null;
 let isWaiting = false;
 let time = 5000;
+
+const genBtn = document.getElementById("gen-btn");
+const jokeDisplay = document.getElementById("joke-display");
+const jokeAnswer = document.getElementById("joke-answer");
+
 async function getRandomJoke() {
   const res = await fetch("https://cheerful-empanada-c3d6af.netlify.app/.netlify/functions/jokes", {
     method: "post"
+  });
+  return await res.json();
+}
+
+async function getJokeByID(id) {
+  const res = await fetch("https://cheerful-empanada-c3d6af.netlify.app/.netlify/functions/get_joke", {
+    method: "post",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({ id })
   });
   return await res.json();
 }
@@ -34,25 +48,44 @@ function updateBg() {
   document.body.style.background = generateRandomLightGradient();
 }
 
-async function showJoke() {
+async function showJoke(currentID = null) {
   if (isWaiting) return;
   isWaiting = true;
   
   clearTimeout(answerTimeout);
-  document.getElementById("joke-answer").style.display = "none";
+  jokeAnswer.style.display = "none";
   updateBg();
   
-  current_joke = await getRandomJoke();
-  document.getElementById("joke-display").textContent = current_joke.question;
+  current_joke = !currentID ? await getRandomJoke() : await getJokeByID(currentID);
+  jokeDisplay.textContent = current_joke.joke.question;
   
+
+  let counter = time / 1000;
+  genBtn.disabled = true;
+  genBtn.textContent = `Wait ${counter}s...`;
+  
+  const countdown = setInterval(() => {
+    counter--;
+    genBtn.textContent = `Wait ${counter}s...`;
+    if (counter <= 0) {
+      clearInterval(countdown);
+      genBtn.disabled = false;
+      genBtn.textContent = "Generate joke";
+    }
+  }, 1000);
+  
+
   answerTimeout = setTimeout(() => {
-    document.getElementById("joke-answer").textContent = current_joke.answer;
-    document.getElementById("joke-answer").style.display = "block";
+    jokeAnswer.textContent = current_joke.joke.answer;
+    jokeAnswer.style.display = "block";
     isWaiting = false;
   }, time);
 }
 
-document.getElementById("gen-btn").addEventListener("click", showJoke);
+genBtn.addEventListener("click", () => showJoke());
 
-// Gọi lần đầu khi load trang
-showJoke();
+if (Number.isNaN(id)) {
+  showJoke();
+} else {
+  showJoke(id);
+}
