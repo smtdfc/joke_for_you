@@ -16,13 +16,14 @@ exports.handler = async function(event, context) {
   }
   
   try {
+    let body = JSON.parse(event.body)
     const filePath = path.join(__dirname, 'jokes.json');
     
     const raw = fs.readFileSync(filePath, 'utf8');
     const jokes = JSON.parse(raw).jokes;
     
-    const randomIndex = Math.floor(Math.random() * jokes.length);
-    const randomJoke = jokes[randomIndex];
+    
+    const joke = jokes[body.id ?? 0];
     
     return {
       statusCode: 200,
@@ -30,8 +31,8 @@ exports.handler = async function(event, context) {
         'Access-Control-Allow-Origin': '*',
       },
       body: JSON.stringify({
-        id:randomIndex,
-        joke:randomJoke
+        id: body.id ?? 0,
+        joke: joke
       }),
     };
   } catch (error) {
