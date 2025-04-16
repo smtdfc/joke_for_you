@@ -2,7 +2,7 @@ const fs = require('fs');
 const path = require('path');
 
 exports.handler = async function(event, context) {
-
+  
   if (event.httpMethod === 'OPTIONS') {
     return {
       statusCode: 200,
@@ -16,9 +16,9 @@ exports.handler = async function(event, context) {
   }
   
   try {
-  const filePath = path.join(__dirname, 'jokes.json');
+    const filePath = path.join(__dirname, 'jokes.json');
     
-   const raw = fs.readFileSync(filePath, 'utf8');
+    const raw = fs.readFileSync(filePath, 'utf8');
     const jokes = JSON.parse(raw).jokes;
     
     const randomIndex = Math.floor(Math.random() * jokes.length);
